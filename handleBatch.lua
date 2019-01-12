@@ -48,6 +48,6 @@ httpServer:use('/batch', function(req, res)
 
 	disp:sendBuffer()
 	res:status(OK)
-	res:send('OK ' .. req.query.cmd)
+	res:send("OK \n" .. req.query.cmd .. "\n")
 
 end)
