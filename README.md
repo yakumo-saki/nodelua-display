@@ -49,7 +49,10 @@ curl http://dumbdisplay.local/clear
 画面を消去します
 
 #### サンプル
+
+```
 curl http://dumbdisplay.local/clear
+```
 
 ### batch
 
@@ -80,7 +83,10 @@ curl http://dumbdisplay.local/clear
 1. 描画方向
 
 #### サンプル
+
+```
 curl http://dumbdisplay.local/batch?cmd=clr%0amsg%0910%0920%09xl%09message%091%091%091
+```
 
 ## thanks
 * httpServer.lua - https://github.com/wangzexi/NodeMCU-HTTP-Server

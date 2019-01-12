@@ -8,20 +8,33 @@ httpServer:use('/batch', function(req, res)
 
 	print(req.query.cmd)
 
-	for cmdstr in string.gmatch(req.query.cmd, "%n") do
+	cmds = split(req.query.cmd, "\n")
+
+	for dummy1,cmdstr in pairs(cmds) do
 		print(cmdstr)
 
-		-- for param in string.gmatch(cmdstr, "\t") do
-		-- 	print(param)
-		-- end
-
-		print("cmdstr end")
-
 		cmd_params = split(cmdstr, ",")
-		print(#cmd_params)
-		print(cmd_params)
-		for p in cmd_params do
-			print(p)
+
+		print("params count = " .. #cmd_params)
+
+		for dummy2, param in pairs(cmd_params) do
+			print(param)
+			cmd = cmd_params[1]
+
+			if (cmd == "clr") then
+				clearDisplay()
+			elseif (cmd == "msg") then
+				x = cmd_params[2]
+				y = cmd_params[3]
+				size = cmd_params[4]
+				text = cmd_params[5]
+				color = cmd_params[6]
+				mode = cmd_params[7]
+				direction = cmd_params[8]
+				ret = drawString(x, y, text, mode, color, size, direction)
+			else
+				print("unknown command. ignore => " .. cmd)
+			end
 		end
 	end
 

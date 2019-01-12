@@ -16,8 +16,10 @@ dofile('util.lua')
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --         MAIN
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+print('init I2C')
 i2c.setup(id,sda,scl,i2c.SLOW)
 
+print('I2C Scan')
 for i=0,127 do
   i2c.start(id)
   resCode = i2c.address(id, i, i2c.TRANSMITTER)
@@ -27,6 +29,7 @@ for i=0,127 do
   end
 end
 
+print('init display')
 disp = u8g2.sh1106_i2c_128x64_noname(id, addr)
 
 disp:setFlipMode(1)
@@ -57,3 +60,5 @@ dofile('handleExample.lua')
 
 print('load displayDemo.lua')
 dofile('displayDemo.lua')
+
+print('initialize done.')
