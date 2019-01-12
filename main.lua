@@ -1,8 +1,21 @@
+print("main.lua start")
+
+BAD_REQUEST=400
+OK=200
+
 id=0  -- 固定値
 sda=1
 scl=2
 addr=0x3C
 
+mdns_name="dumbdisplay"
+
+print('load util.lua')
+dofile('util.lua')
+
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--         MAIN
+-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 i2c.setup(id,sda,scl,i2c.SLOW)
 
 for i=0,127 do
@@ -14,12 +27,9 @@ for i=0,127 do
   end
 end
 
---disp = u8g2.sh1106_i2c_128x64_noname(id, 50)
-
 disp = u8g2.sh1106_i2c_128x64_noname(id, addr)
 
 disp:setFlipMode(1)
--- disp = u8g2.sdd1306_i2c_128x64_noname(id, addr)
 
 disp:clearBuffer()
 disp:setContrast(255)
@@ -27,36 +37,23 @@ disp:setFontMode(0)
 disp:setDrawColor(1)
 disp:setBitmapMode(0)
 
-disp:drawFrame(90, 40, 10, 20)
-disp:drawBox(110, 40, 10, 20)
-
-disp:drawFrame(0, 0, 128, 64)
 disp:sendBuffer()
 
--- https://github.com/olikraus/u8g2/wiki/fntlistall#6-pixel-height
+print('load utilDisplay.lua')
+dofile('utilDisplay.lua')
 
--- font
--- disp:clearBuffer()
+print("HTTP server start")
+dofile('httpServer.lua')
+httpServer:listen(80)
 
--- OK
-disp:setFontMode(0)
-disp:setDrawColor(1)
--- disp:setDrawColor(0)  BAD ! Black background
-disp:setFont(u8g2.font_6x10_tf)
-disp:drawStr(2, 12, "ABCDEFGabcdefg0123456789")
-disp:sendBuffer()
+print('mdns start ')
+mdns.register(mdns_name, { description="dumb_display", service="http", port=80, location='Living Room' })
 
--- OK
-disp:setFontMode(0)
-disp:setDrawColor(1)
-disp:setFont(u8g2.font_unifont_t_symbols)
-disp:drawStr(2, 28, "ABCDEFGabcdefg0123456789")
-disp:sendBuffer()
+print('load handler*.lua')
+dofile('handleBatch.lua')
+dofile('handleClear.lua')
+dofile('handleString.lua')
+dofile('handleExample.lua')
 
--- circle
-disp:drawCircle(20, 40, 10, u8g2.DRAW_ALL)
-disp:drawCircle(30, 50, 10, u8g2.DRAW_ALL)
-disp:drawCircle(40, 40, 10, u8g2.DRAW_ALL)
-disp:drawCircle(50, 50, 10, u8g2.DRAW_ALL)
-disp:drawCircle(60, 40, 10, u8g2.DRAW_ALL)
-disp:sendBuffer()
+print('load displayDemo.lua')
+dofile('displayDemo.lua')

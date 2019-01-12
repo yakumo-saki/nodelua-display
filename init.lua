@@ -1,15 +1,24 @@
 -- FROM official documentation https://nodemcu.readthedocs.io/en/dev/en/upload/
--- load credentials, 'SSID' and 'PASSWORD' declared and initialize in there
+
+-- load credentials, 'WIFI_SSID' and 'WIFI_PASSWORD' declared and initialize in there
+-- Credentials.lua example
+-- WIFI_SSID = "wifi_ssid"
+-- WIFI_PASSWORD = "wifi_password"
+--------------------------------------------------------------------------------------
+
+print("starting up")
+print("load credentials.lua")
 dofile("credentials.lua")
 
 function startup()
     if file.open("init.lua") == nil then
-        print("init.lua deleted or renamed")
+        print("detect init.lua deleted or renamed. stop.")
     else
-        print("Running")
         file.close("init.lua")
-        -- the actual application is stored in 'application.lua'
-        -- dofile("application.lua")
+
+		-- the actual application is stored in 'application.lua'
+        print("Running application")
+        dofile("main.lua")
     end
 end
 
