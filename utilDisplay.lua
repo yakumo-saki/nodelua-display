@@ -1,8 +1,8 @@
-function clearDisplay()
+function clearDisplay(disp)
 	disp:clearBuffer()
 end
 
-function drawString(x, y, text, pfontmode, pfontcolor, pfontsize, pdirection)
+function drawString(disp, x, y, text, pfontmode, pfontcolor, pfontsize, pdirection)
 	if (x == nil) then
 		return 'Error: parameter y is nil'
 	end
@@ -33,4 +33,16 @@ function drawString(x, y, text, pfontmode, pfontcolor, pfontsize, pdirection)
 	disp:drawStr(x, y, text)
 
 	return ""
+end
+
+function get_display(num)
+	disp_num = num or 1
+
+	if num == "2" then
+		print("disp = 2")
+		return disp2
+	end
+
+	print("disp = 1")
+	return disp1
 end

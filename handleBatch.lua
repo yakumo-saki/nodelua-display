@@ -1,5 +1,7 @@
 httpServer:use('/batch', function(req, res)
 
+	disp = get_display(req.query.disp)
+
 	if (req.query.cmd == nil) then
 		res:status(BAD_REQUEST)
 		res:send('Error: parameter cmd is nil')
@@ -15,14 +17,14 @@ httpServer:use('/batch', function(req, res)
 
 		cmd_params = split(cmdstr, ",")
 
-		print("params count = " .. #cmd_params)
+		-- print("params count = " .. #cmd_params)
 
 		for dummy2, param in pairs(cmd_params) do
-			print(param)
+			-- print(param)
 			cmd = cmd_params[1]
 
 			if (cmd == "clr") then
-				clearDisplay()
+				clearDisplay(disp)
 			elseif (cmd == "msg") then
 				x = cmd_params[2]
 				y = cmd_params[3]
@@ -31,7 +33,7 @@ httpServer:use('/batch', function(req, res)
 				color = cmd_params[6]
 				mode = cmd_params[7]
 				direction = cmd_params[8]
-				ret = drawString(x, y, text, mode, color, size, direction)
+				ret = drawString(disp, x, y, text, mode, color, size, direction)
 			else
 				print("unknown command. ignore => " .. cmd)
 			end

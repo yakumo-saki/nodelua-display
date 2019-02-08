@@ -3,15 +3,24 @@ print("main.lua start")
 BAD_REQUEST=400
 OK=200
 
-id=0  -- 固定値
-sda=1
-scl=2
-addr=0x3C
+print("load config.lua")
+dofile("config")
+print("sda", sda, "scl", scl)
 
-mdns_name="dumbdisplay"
+print("load util.lua")
+dofile("util.lua")
 
-print('load util.lua')
-dofile('util.lua')
+function init_display(disp)
+	disp:setFlipMode(1)
+
+	disp:clearBuffer()
+	disp:setContrast(255)
+	disp:setFontMode(0)
+	disp:setDrawColor(1)
+	disp:setBitmapMode(0)
+
+	disp:sendBuffer()
+end
 
 -- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --         MAIN
@@ -29,18 +38,18 @@ for i=0,127 do
   end
 end
 
-print('init display')
-disp = u8g2.sh1106_i2c_128x64_noname(id, addr)
+print("init display 1")
 
-disp:setFlipMode(1)
+disp1 = u8g2.sh1106_i2c_128x64_noname(id, i2c_addr_1)
+init_display(disp1)
 
-disp:clearBuffer()
-disp:setContrast(255)
-disp:setFontMode(0)
-disp:setDrawColor(1)
-disp:setBitmapMode(0)
-
-disp:sendBuffer()
+if (i2c_addr_2 == -1) then
+	disp2 = disp1
+else
+	print("init display 2")
+	disp2 = u8g2.sh1106_i2c_128x64_noname(id, i2c_addr_2)
+	init_display(disp2)
+end
 
 print('load utilDisplay.lua')
 dofile('utilDisplay.lua')
@@ -49,7 +58,7 @@ print("HTTP server start")
 dofile('httpServer.lua')
 httpServer:listen(80)
 
-print('mdns start ')
+print('mdns start hostname=' .. mdns_name)
 mdns.register(mdns_name, { description="dumb_display", service="http", port=80, location='Living Room' })
 
 print('load handler*.lua')
@@ -62,3 +71,6 @@ print('load displayDemo.lua')
 dofile('displayDemo.lua')
 
 print('initialize done.')
+
+display_demo(disp1, "display1")
+display_demo(disp2, "display2")

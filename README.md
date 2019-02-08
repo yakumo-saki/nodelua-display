@@ -4,22 +4,37 @@ ESP8266 NodeMCU and Lua SH1106 display
 
 ## これは何？
 http経由で表示を変更できるディスプレイです。
+nodemcu上で動作する lua のプログラムになっています。
+2つの液晶を同時に駆動できます。
 
 ## nodemcu build
+使用するnodemcuのファームウェアは以下の通りです。
+https://nodemcu-build.com/ でビルドできます。
 
-* modules: file gpio i2c mdns net node tmr u8g2 uart wifi
+* modules: file gpio i2c mdns net node timer u8g2 uart wifi bit
 * u8g2 display, I²C = sh1106 128x64 i2c noname
 * u8g2 display, SPI = 
-* u8g2 fonts: font_6x10_tf,font_unifont_t_symbols,font_courR18_tf
+* u8g2 fonts: (default)font_6x10_tf,(default)font_unifont_t_symbols,font_courR18_tf
+
+## 各種設定方法
+config ファイルを書き換えて下さい。
 
 ## ファイル転送方法
+
 `nodemcu-tool` をインストール
 
 ```
+// 初回のみ
+nodemcu-tool --port /dev/tty.portname upload config
+
+// 二回目以降。バージョンアップ時含む
 nodemcu-tool --port /dev/tty.portname upload *.lua
 ```
 
 ## WebAPI
+
+すべてのAPIは、 disp というパラメタに 1 or 2 をセットすることで表示する液晶を切り替えることができます。
+省略時は 1 が仮定されます。
 
 ### clear
 
@@ -63,7 +78,7 @@ curl http://dumbdisplay.local/clear
 1. cmd （必須）コマンド文字列（後述）
 
 #### コマンド文字列 
-パラメタをNUL文字(%00) で区切ったもの。
+パラメタをカンマ(,) で区切ったもの。すなわちカンマを表示することはできない。
 複数コマンドを投入する場合、改行（%0a）で区切る。
 個別コマンドと異なり、パラメタの省略はできない。
 

@@ -1,5 +1,7 @@
 httpServer:use('/clear', function(req, res)
-	clearDisplay()
+	disp = get_display(req.query.disp)
+
+	clearDisplay(disp)
 	disp:sendBuffer()
 
 	res:status(OK)
