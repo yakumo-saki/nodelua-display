@@ -31,7 +31,7 @@ nodemcu-tool --port /dev/tty.portname upload config
 nodemcu-tool --port /dev/tty.portname upload *.lua
 ```
 
-# thanks
+## thanks
 * httpServer.lua - https://github.com/wangzexi/NodeMCU-HTTP-Server
 
 # WebAPI
