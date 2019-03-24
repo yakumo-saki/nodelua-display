@@ -28,14 +28,16 @@ end
 print('init I2C')
 i2c.setup(id,sda,scl,i2c.SLOW)
 
-print('I2C Scan')
-for i=0,127 do
-  i2c.start(id)
-  resCode = i2c.address(id, i, i2c.TRANSMITTER)
-  i2c.stop(id)
-  if resCode == true then
-	print("We have a device on address 0x" .. string.format("%02x", i) .. " (" .. i ..")")
-  end
+if (false) then
+	print('I2C Scan')
+	for i=0,127 do
+		i2c.start(id)
+		resCode = i2c.address(id, i, i2c.TRANSMITTER)
+		i2c.stop(id)
+		if resCode == true then
+			print("We have a device on address 0x" .. string.format("%02x", i) .. " (" .. i ..")")
+		end
+	end
 end
 
 print("init display 1")
@@ -77,3 +79,5 @@ print('initialize done.')
 ip = wifi.sta.getip()
 display_demo(disp1, "display1", ip)
 display_demo(disp2, "display2", ip)
+
+print('ready.')
