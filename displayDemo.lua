@@ -1,6 +1,6 @@
 -- https://github.com/olikraus/u8g2/wiki/fntlistall#6-pixel-height
 
-function display_demo(disp, msg)
+function display_demo(disp, msg, ip)
 	disp:clearBuffer()
 
 	-- OK
@@ -8,7 +8,7 @@ function display_demo(disp, msg)
 	disp:setDrawColor(1)
 	-- disp:setDrawColor(0)  BAD ! Black background
 	disp:setFont(u8g2.font_6x10_tf)
-	disp:drawStr(2, 12, "ABCDEFGabcdefg0123456789")
+	disp:drawStr(2, 12, ip)
 	disp:sendBuffer()
 
 	-- OK

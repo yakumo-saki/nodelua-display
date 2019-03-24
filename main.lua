@@ -65,6 +65,8 @@ print('load handler*.lua')
 dofile('handleBatch.lua')
 dofile('handleClear.lua')
 dofile('handleString.lua')
+dofile('handleBrightness.lua')
+dofile('handlePowersave.lua')
 dofile('handleExample.lua')
 
 print('load displayDemo.lua')
@@ -72,5 +74,6 @@ dofile('displayDemo.lua')
 
 print('initialize done.')
 
-display_demo(disp1, "display1")
-display_demo(disp2, "display2")
+ip = wifi.sta.getip()
+display_demo(disp1, "display1", ip)
+display_demo(disp2, "display2", ip)

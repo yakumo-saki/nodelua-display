@@ -31,26 +31,26 @@ nodemcu-tool --port /dev/tty.portname upload config
 nodemcu-tool --port /dev/tty.portname upload *.lua
 ```
 
-## WebAPI
+# WebAPI
 
 すべてのAPIは、 disp というパラメタに 1 or 2 をセットすることで表示する液晶を切り替えることができます。
 省略時は 1 が仮定されます。
 
-### clear
+## clear
 
-#### パラメタ
+画面を消去します
+
+### パラメタ
 なし
 
-#### 機能
-画面を消去します
-
 #### サンプル
-curl http://dumbdisplay.local/clear
+curl http://dumbdisplay.local/clear&disp=1
 
-### string
-画面を消去します
+## string
 
-#### パラメタ
+文字を描画します。
+
+### パラメタ
 
 1. text （必須）表示文字列
 1. x （必須）x座標
@@ -60,33 +60,30 @@ curl http://dumbdisplay.local/clear
 1. fontmode （省略可）フォント描画モード
 1. fontcolor（省略可）フォント色
 
-#### 機能
-画面を消去します
-
-#### サンプル
+### サンプル
 
 ```
-curl http://dumbdisplay.local/clear
+curl http://dumbdisplay.local/string?text=abcde&x=10&y=30&disp=1
 ```
 
-### batch
+## batch
 
 コマンドを連続して実行させることが出来る。メモリの制限によりあまり長いコマンド文字列を投入するとエラーになる。
 
-#### パラメタ
+### パラメタ
 
 1. cmd （必須）コマンド文字列（後述）
 
-#### コマンド文字列 
+### コマンド文字列 
 パラメタをカンマ(,) で区切ったもの。すなわちカンマを表示することはできない。
 複数コマンドを投入する場合、改行（%0a）で区切る。
 個別コマンドと異なり、パラメタの省略はできない。
 
-##### 画面クリアコマンド
+#### バッチコマンド：画面クリア
 
 1. 固定文字列 clr
 
-#### 文字描画コマンド
+#### バッチコマンド：文字描画
 
 1. 固定文字列 msg
 1. x座標
@@ -100,8 +97,32 @@ curl http://dumbdisplay.local/clear
 #### サンプル
 
 ```
-curl http://dumbdisplay.local/batch?cmd=clr%0amsg%0910%0920%09xl%09message%091%091%091
+curl http://dumbdisplay.local/batch?cmd=clr%0amsg%0910%0920%09xl%09message%091%091%091&disp=1
 ```
+
+## Powersave
+
+画面表示を消し、バックライトをOFFにします。
+パワーセーブ状態に入ると、画面の更新コマンドは無視されます。
+
+### パラメタ
+
+1. value （必須） 1=パワーセーブモード 0=通常モード
+
+### サンプル
+curl http://dumbdisplay.local/powersave?value=1&disp=1
+
+## Brightness
+
+液晶画面の明るさを調整します。
+
+### パラメタ
+
+1. value （必須） 0（暗い）〜255（明るい。初期値）
+
+#### サンプル
+curl http://dumbdisplay.local/brightness?value=128&disp=1
 
 ## thanks
 * httpServer.lua - https://github.com/wangzexi/NodeMCU-HTTP-Server
+
