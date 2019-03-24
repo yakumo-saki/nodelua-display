@@ -36,9 +36,13 @@ function drawString(disp, x, y, text, pfontmode, pfontcolor, pfontsize, pdirecti
 end
 
 function get_display(num)
-	disp_num = num or 1
+	disp_num = tonumber(num) or 1
 
-	if num == "2" then
+	if disp_num == 2 then
+		if disp2 == nil then
+			print("WARNING disp = 2 is not connected.")
+			return nil
+		end
 		print("disp = 2")
 		return disp2
 	end

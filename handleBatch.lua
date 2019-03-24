@@ -1,5 +1,10 @@
 httpServer:use('/batch', function(req, res)
 
+	if (powersave_flag) then
+		print("batch command ignored (powersave)")
+		return
+	end
+
 	disp = get_display(req.query.disp)
 
 	if (req.query.cmd == nil) then
@@ -8,12 +13,13 @@ httpServer:use('/batch', function(req, res)
 		return
 	end
 
+	print(">>> batch cmd")
 	print(req.query.cmd)
+	print("<<< batch cmd")
 
 	cmds = split(req.query.cmd, "\n")
 
 	for dummy1,cmdstr in pairs(cmds) do
-		print(cmdstr)
 
 		cmd_params = split(cmdstr, ",")
 

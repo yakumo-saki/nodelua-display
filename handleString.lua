@@ -1,5 +1,10 @@
 httpServer:use('/string', function(req, res)
 
+	if (powersave_flag) then
+		print("string command ignored (powersave)")
+		return
+	end
+
 	disp = get_display(req.query.disp)
 
 	ret = drawString(disp, req.query.x, req.query.y, req.query.text, req.query.fontmode, req.query.fontcolor, req.query.fontsize, req.query.direction)

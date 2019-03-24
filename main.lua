@@ -3,6 +3,8 @@ print("main.lua start")
 BAD_REQUEST=400
 OK=200
 
+powersave_flag = false
+
 print("load config.lua")
 dofile("config")
 print("sda", sda, "scl", scl)
@@ -46,7 +48,7 @@ disp1 = u8g2.sh1106_i2c_128x64_noname(id, i2c_addr_1)
 init_display(disp1)
 
 if (i2c_addr_2 == -1) then
-	disp2 = disp1
+	disp2 = nil
 else
 	print("init display 2")
 	disp2 = u8g2.sh1106_i2c_128x64_noname(id, i2c_addr_2)

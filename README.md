@@ -31,10 +31,15 @@ nodemcu-tool --port /dev/tty.portname upload config
 nodemcu-tool --port /dev/tty.portname upload *.lua
 ```
 
+# thanks
+* httpServer.lua - https://github.com/wangzexi/NodeMCU-HTTP-Server
+
 # WebAPI
 
-すべてのAPIは、 disp というパラメタに 1 or 2 をセットすることで表示する液晶を切り替えることができます。
+特に記述がない限り、すべてのAPIは、 disp というパラメタに 1 or 2 をセットすることで表示する液晶を切り替えることができます。
 省略時は 1 が仮定されます。
+
+---
 
 ## clear
 
@@ -44,7 +49,12 @@ nodemcu-tool --port /dev/tty.portname upload *.lua
 なし
 
 #### サンプル
+
+```
 curl http://dumbdisplay.local/clear&disp=1
+```
+
+---
 
 ## string
 
@@ -65,6 +75,8 @@ curl http://dumbdisplay.local/clear&disp=1
 ```
 curl http://dumbdisplay.local/string?text=abcde&x=10&y=30&disp=1
 ```
+
+---
 
 ## batch
 
@@ -100,29 +112,37 @@ curl http://dumbdisplay.local/string?text=abcde&x=10&y=30&disp=1
 curl http://dumbdisplay.local/batch?cmd=clr%0amsg%0910%0920%09xl%09message%091%091%091&disp=1
 ```
 
+---
+
 ## Powersave
 
 画面表示を消し、バックライトをOFFにします。
 パワーセーブ状態に入ると、画面の更新コマンドは無視されます。
+このコマンドは、`disp` パラメタを解釈しません。両方の画面をパワーセーブします。
 
 ### パラメタ
 
 1. value （必須） 1=パワーセーブモード 0=通常モード
 
 ### サンプル
-curl http://dumbdisplay.local/powersave?value=1&disp=1
 
-## Brightness
+```
+curl http://dumbdisplay.local/powersave?value=1&disp=1
+```
+
+---
+
+## brightness
 
 液晶画面の明るさを調整します。
+このコマンドは、`disp` パラメタを解釈しません。両方の画面をパワーセーブします。
 
 ### パラメタ
 
 1. value （必須） 0（暗い）〜255（明るい。初期値）
 
-#### サンプル
+### サンプル
+
+```
 curl http://dumbdisplay.local/brightness?value=128&disp=1
-
-## thanks
-* httpServer.lua - https://github.com/wangzexi/NodeMCU-HTTP-Server
-
+```
